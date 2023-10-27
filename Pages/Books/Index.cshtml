@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/"
 @model Muresan_Edmond_Ferenc_Lab2.Pages.Books.IndexModel
 
 @{
@@ -27,20 +27,23 @@
                 @Html.DisplayNameFor(model => model.Book[0].Publisher.PublisherName)
             </th>
             <th>
-                First Name
+                Author
             </th>
             <th>
-                Last Name
+                @Html.DisplayNameFor(model => model.Book[0].BookCategories)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.Book != null && Model.Book.Any())
-        {
-            @foreach (var item in Model.Book)
+            @foreach (var item in Model.BookD.Books)
             {
-                <tr>
+                string selectedRow = ""; 
+                 if (item.ID == Model.BookID)
+                 { 
+                 selectedRow = "table-success"; 
+                 } 
+                 <tr class="@selectedRow">
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
@@ -54,11 +57,17 @@
                         @Html.DisplayFor(modelItem => item.Publisher.PublisherName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => (item.Author.FirstName))
+                    @Html.DisplayFor(modelItem => item.Author.FirstName)
+                    @Html.DisplayFor(modelItem => item.Author.LastName)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => (item.Author.LastName))
-                    </td>
+                <td>
+                    @{
+                        foreach (var category in item.BookCategories)
+                        {
+                            @category.Category.ID @: @category.Category.CategoryName <br />
+                        }
+                    }
+                </td>
                     <td>
                         <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                         <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
@@ -66,12 +75,5 @@
                     </td>
                 </tr>
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="6">No books found.</td>
-            </tr>
-        }
     </tbody>
 </table>

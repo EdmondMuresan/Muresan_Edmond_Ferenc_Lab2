@@ -15,8 +15,15 @@ namespace Muresan_Edmond_Ferenc_Lab2.Models
         public DateTime PublishingDate { get; set; }
         public Author? Author { get; set; }
         public int? AuthorID { get; set; }
+        public string FullAuthorName
+        {
+            get
+            {
+                return $"{Author.FirstName} {Author.LastName}";
+            }
+        }
         public int? PublisherID { get; set; }
         public Publisher? Publisher { get; set; }
-    
-}
+        public ICollection<BookCategory>? BookCategories { get; set; }
+    }
 }
